@@ -1,17 +1,15 @@
 import {Component} from 'react';
-import './main.css'
-
+import './Main.css';
 
 class Main extends Component {
-
-  render(){
+  render() {
     const {main} = this.props;
-    console.log(main)
+    console.log(main);
     return (
       <>
         <h1>It is main {this.props.main} component</h1>
       </>
-    )
+    );
   }
 }
 
