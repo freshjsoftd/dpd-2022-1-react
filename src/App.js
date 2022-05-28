@@ -1,30 +1,81 @@
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
-import Main from './components/Main/Main';
+import WatchForm from './components/WatchForm/WatchForm';
+import WatchList from './components/WatchList/WatchList';
 
-function App() {
-  return (
-    <>
-      <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-    <Main main="React" app="App"/>
-    </>
+
+export class App extends Component {
+  
+  state = {
+    toWatchMovies: [
+      {
+        id: 1,
+        title: 'Movie 1',
+        isDone: false,
+      },
+      {
+        id: 2,
+        title: 'Movie 2',
+        isDone: true,
+      },
+      {
+        id: 3,
+        title: 'Movie 3',
+        isDone: false,
+      },
+      {
+        id: 4,
+        title: 'Movie 4',
+        isDone: false,
+      },
+    ],
     
-  );
+  }
+
+  toggleToWatch = (id) => {
+    this.setState({
+      toWatchMovies: this.state.toWatchMovies.map((movie) => {
+        if(movie.id !== id) {
+          return movie;
+        }
+        return {...movie, isDone: !movie.isDone};
+      })
+    })
+  }
+
+  addToWatch = (toWatch) => {
+    // toWatch.id = Math.random()*1000;
+    toWatch.id = Date.now();
+    this.setState({
+      toWatchMovies: [...this.state.toWatchMovies, toWatch],
+    })
+  }
+
+  deleteToWatch = (id) => {
+    this.setState({
+      toWatchMovies: [...this.state.toWatchMovies.filter((movie) => movie.id !== id)]
+    })
+  }
+
+  saveToWatch(){
+    localStorage.setItem('toWatchMovies', JSON.stringify(this.state.toWatchMovies))
+  }
+
+  
+
+  render() {
+    console.log(this.state);
+    return (
+      <div className="container">
+          <WatchList 
+            movies={this.state.toWatchMovies}
+            onToggle={this.toggleToWatch}
+            onDelete={this.deleteToWatch}/>
+          <WatchForm onSubmit={this.addToWatch}/>
+      </div>
+    )
+    
+  }
 }
 
 export default App;

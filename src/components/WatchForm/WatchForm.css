@@ -1,0 +1,21 @@
+*{
+  box-sizing: border-box;
+}
+.watch-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input{
+  margin: 5px 10px;
+  min-height: 40px;
+  min-width: 450px;
+  font-size: 20px;
+}
+.add{
+  min-height: 40px;
+  max-height: 50px;
+  min-width: 50px;
+  padding: 5px;
+  font-size: 20px;
+}
