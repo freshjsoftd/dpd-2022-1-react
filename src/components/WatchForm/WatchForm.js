@@ -19,6 +19,9 @@ export class WatchForm extends Component {
       title: this.state.movieTitle,
       isDone: false,
     })
+    this.setState({
+      movieTitle: ''
+    })
   }
 
   render() {
@@ -29,6 +32,10 @@ export class WatchForm extends Component {
                 value={this.state.movieTitle}
                 onChange={this.onIputChange}/>
           <button className="add">Add</button>
+          <button 
+                className="save"
+                type='button'
+                onClick={this.props.onSave}>Save</button>
       </form>
     )
   }

@@ -9,13 +9,14 @@
 input{
   margin: 5px 10px;
   min-height: 40px;
-  min-width: 450px;
+  min-width: 370px;
   font-size: 20px;
 }
-.add{
+.add, .save{
   min-height: 40px;
   max-height: 50px;
   min-width: 50px;
   padding: 5px;
+  margin: 5px;
   font-size: 20px;
 }

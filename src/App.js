@@ -7,29 +7,7 @@ import WatchList from './components/WatchList/WatchList';
 export class App extends Component {
   
   state = {
-    toWatchMovies: [
-      {
-        id: 1,
-        title: 'Movie 1',
-        isDone: false,
-      },
-      {
-        id: 2,
-        title: 'Movie 2',
-        isDone: true,
-      },
-      {
-        id: 3,
-        title: 'Movie 3',
-        isDone: false,
-      },
-      {
-        id: 4,
-        title: 'Movie 4',
-        isDone: false,
-      },
-    ],
-    
+    toWatchMovies: [],
   }
 
   toggleToWatch = (id) => {
@@ -57,21 +35,49 @@ export class App extends Component {
     })
   }
 
-  saveToWatch(){
-    localStorage.setItem('toWatchMovies', JSON.stringify(this.state.toWatchMovies))
+  saveToWatch = () =>{
+     localStorage.setItem('toWatchMovies', JSON.stringify(this.state.toWatchMovies))
   }
 
-  
+  componentDidMount(){
+    console.log('componentDidMount');
+    
+    const fromStorage = JSON.parse(localStorage.getItem('toWatchMovies', JSON.stringify(this.state.toWatchMovies)))
+    if(!fromStorage){
+      this.setState(
+        {
+        toWatchMovies: [],
+      }
+        )
+    }else {
+      this.setState({
+        toWatchMovies: [...fromStorage]
+      })
+    }
 
+    // this.idInterval = setInterval(this.saveToWatch, 2000);
+  }
+
+  componentDidUpdate(){
+    console.log('componentDidUpdate');
+    // this.saveToWatch()
+    
+  }
+
+  componentWillUnmount(){
+    console.log('componentWillUnmount');
+    clearInterval(this.idInterval);
+  }
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <div className="container">
           <WatchList 
             movies={this.state.toWatchMovies}
             onToggle={this.toggleToWatch}
             onDelete={this.deleteToWatch}/>
-          <WatchForm onSubmit={this.addToWatch}/>
+          <WatchForm onSubmit={this.addToWatch}
+                      onSave={this.saveToWatch}/>
       </div>
     )
     

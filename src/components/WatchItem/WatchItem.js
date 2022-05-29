@@ -8,6 +8,10 @@ export class WatchItem extends Component {
     this.props.onDelete(this.props.movie.id)
   }
 
+  componentWillUnmount(){
+    console.log('Bye, bye');
+  }
+
   render() {
     // console.log(this.props);
     return (
