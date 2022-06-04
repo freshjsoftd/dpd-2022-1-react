@@ -9,7 +9,7 @@ export class WatchItem extends Component {
   }
 
   componentWillUnmount(){
-    console.log('Bye, bye');
+    // console.log('Bye, bye');
   }
 
   render() {

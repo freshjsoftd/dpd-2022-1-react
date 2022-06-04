@@ -13,14 +13,16 @@ export class WatchList extends Component {
     }
   }
   shouldComponentUpdate(nextProps, nextState) {
-    console.log(nextProps, this.props);
-    console.log(nextState, this.state);
+    // console.log(nextProps, this.props);
+    // console.log(nextState, this.state);
     return true
   }
 
 
   render() {
-    // console.log(this.props.movies.length);
+    console.log(this.props);
+    console.log(this.state);
+    
     return (
       <div>
         {this.props.movies.map((movie) => {

@@ -40,7 +40,7 @@ export class App extends Component {
   }
 
   componentDidMount(){
-    console.log('componentDidMount');
+    // console.log('componentDidMount');
     
     const fromStorage = JSON.parse(localStorage.getItem('toWatchMovies', JSON.stringify(this.state.toWatchMovies)))
     if(!fromStorage){
@@ -59,17 +59,17 @@ export class App extends Component {
   }
 
   componentDidUpdate(){
-    console.log('componentDidUpdate');
+    // console.log('componentDidUpdate');
     // this.saveToWatch()
     
   }
 
   componentWillUnmount(){
-    console.log('componentWillUnmount');
+    // console.log('componentWillUnmount');
     clearInterval(this.idInterval);
   }
   render() {
-    // console.log(this.state);
+    console.log(this.state);
     return (
       <div className="container">
           <WatchList 
