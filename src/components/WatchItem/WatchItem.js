@@ -1,28 +1,44 @@
-import React, {Component} from 'react';
-import './WatchItem.css'
+import React, { useEffect } from 'react';
+import './WatchItem.css';
 
-export class WatchItem extends Component {
+const contentStyles = {
+  color: 'white',
+  // backgroundColor: 'blue'
+}
 
-  onMovieDelete = (event) => {
-    event.stopPropagation();
-    this.props.onDelete(this.props.movie.id)
-  }
-
-  componentWillUnmount(){
-    // console.log('Bye, bye');
-  }
-
-  render() {
-    // console.log(this.props);
-    return (
-    <div className={'watch-item ' + (this.props.movie.isDone ? 'done' : '')}
-          onClick={() => this.props.onToggle(this.props.movie.id)}>
-      <p className='content'>{this.props.movie.title}</p>
-      <span className='delete-btn'
-            onClick={this.onMovieDelete}>X</span>
-    </div>
-    );
+function toggleBackground(movie){
+  return {
+    ...contentStyles,
+    backgroundColor: movie.isDone ? 'cadetblue' : 'darkgoldenrod',
   }
 }
 
-export default WatchItem;
+function WatchItem({movie, onDelete, onToggle}) {
+
+  useEffect(() => {
+    console.log('hello');
+    return () => {
+      console.log('Bye');
+    }
+  }, [])
+
+  function onMovieDelete(e){
+    e.stopPropagation();
+    onDelete(movie.id)
+  }
+
+  return (
+    <div className='watch-item'
+        style={toggleBackground(movie)}
+          onClick={() => onToggle(movie.id)}
+          >
+      <p className='content'>{movie.title} produced by {movie.director}</p>
+      <span className='delete-btn'
+            onClick={onMovieDelete}
+            >X</span>
+    </div>
+    );
+  }
+
+export default WatchItem
+

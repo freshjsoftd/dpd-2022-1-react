@@ -1,52 +1,52 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react'
 import './WatchForm.css'
 
-export class WatchForm extends Component {
+function WatchForm({onSubmit}) {
 
-  state = {
-    movieTitle: '',
-    director: '',
+  const [title, setTitle] = useState('');
+  const [director, setDirector] = useState('');
+
+  function onIputChange(e){
+    if(e.target.name === 'title'){
+      setTitle(e.target.value);
+    }
+    if(e.target.name === 'director'){
+      setDirector(e.target.value);
+    }
   }
 
-  onIputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    })
-  }
-
-  onFormSubmit = (event) => {
-    event.preventDefault();
-    this.props.onSubmit({
-      title: this.state.movieTitle,
-      director: this.state.director,
-      isDone: false,
-    })
-    this.setState({
-      movieTitle: ''
-    })
-  }
-
-  render() {
-    console.log(this.state);
-    return (
-      <form className="watch-form"
-            onSubmit={this.onFormSubmit}>
-          <input type="text"
-                name='movieTitle'
-                value={this.state.movieTitle}
-                onChange={this.onIputChange}/>
-          <input type="text"
-                name='director'
-                value={this.state.director}
-                onChange={this.onIputChange}/>
-          <button className="add">Add</button>
-          <button 
-                className="save"
-                type='button'
-                onClick={this.props.onSave}>Save</button>
-      </form>
+  function onFormSubmit(e){
+    e.preventDefault();
+    onSubmit(
+      {
+        title: title,
+        director: director,
+        isDone: false,
+    }
     )
   }
+
+  return (
+    <form className="watch-form"
+          onSubmit={onFormSubmit}
+          >
+        <input type="text"
+              name='title'
+              value={title}
+              onChange={onIputChange}
+              />
+        <input type="text"
+              name='director'
+              value={director}
+              onChange={onIputChange}
+              />
+        <button className="add">Add</button>
+        {/* <button 
+              className="save"
+              type='button'
+              onClick={this.props.onSave}>Save</button> */}
+    </form>
+  )
 }
 
-export default WatchForm;
+export default WatchForm
