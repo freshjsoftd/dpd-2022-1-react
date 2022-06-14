@@ -16,9 +16,9 @@ function toggleBackground(movie){
 function WatchItem({movie, onDelete, onToggle}) {
 
   useEffect(() => {
-    console.log('hello');
+    // console.log('hello');
     return () => {
-      console.log('Bye');
+      // console.log('Bye');
     }
   }, [])
 
