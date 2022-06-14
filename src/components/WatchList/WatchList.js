@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { MovieContext } from '../../context/MovieContext'
 import WatchItem from '../WatchItem/WatchItem'
 
-function WatchList({movies, onDelete, onToggle}) {
+function WatchList({onDelete, onToggle}) {
+  const movies = useContext(MovieContext)
   return (
     <div>
       {movies.map((movie) => {

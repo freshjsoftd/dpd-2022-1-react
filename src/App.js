@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
+
 import movieService from './movie-service';
 import './App.css';
 import WatchForm from './components/WatchForm/WatchForm';
 import WatchList from './components/WatchList/WatchList';
 import initialState from './model/initial-to-watch';
+import {MovieContext} from './context/MovieContext';
 
 function App() {
   const [toWatchMovies, setToWatchMovies] = useState(initialState);
@@ -37,7 +39,9 @@ function App() {
   // }, []);
 
   function deleteToWatch(id) {
-    movieService.delete(`/${id}`).then(({statusText}) => console.log(statusText));
+    movieService
+      .delete(`/${id}`)
+      .then(({statusText}) => console.log(statusText));
     const newWatchMovies = toWatchMovies.filter((movie) => movie.id !== id);
     setToWatchMovies(newWatchMovies);
     // saveToStorage(newWatchMovies);
@@ -59,14 +63,12 @@ function App() {
   function toggleToWatch(id) {
     const updatedMovie = toWatchMovies.find((movie) => movie.id === id);
     updatedMovie.isDone = !updatedMovie.isDone;
-    movieService.put(`/${id}`, updatedMovie)
-      .then(({data}) => {
-        // console.log(data);
-        setToWatchMovies(toWatchMovies.map((movie) =>
-          movie.id !== id ? movie : data,
-        ));
-
-      })
+    movieService.put(`/${id}`, updatedMovie).then(({data}) => {
+      // console.log(data);
+      setToWatchMovies(
+        toWatchMovies.map((movie) => (movie.id !== id ? movie : data)),
+      );
+    });
     // saveToStorage(newWatchMovies);
   }
 
@@ -81,12 +83,14 @@ function App() {
 
   return (
     <div className="container">
-      <WatchList
-        movies={toWatchMovies}
-        onToggle={toggleToWatch}
-        onDelete={deleteToWatch}
-      />
-      <WatchForm onSubmit={addNewToWatch} />
+      <MovieContext.Provider value={toWatchMovies}>
+        <WatchList
+          // movies={toWatchMovies}
+          onToggle={toggleToWatch}
+          onDelete={deleteToWatch}
+        />
+        <WatchForm onSubmit={addNewToWatch} />
+      </MovieContext.Provider>
     </div>
   );
 }
