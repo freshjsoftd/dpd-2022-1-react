@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React/*, { useEffect }*/ from 'react';
 import './WatchItem.css';
 
 const contentStyles = {
   color: 'white',
-  // backgroundColor: 'blue'
 }
 
 function toggleBackground(movie){
@@ -15,12 +14,12 @@ function toggleBackground(movie){
 
 function WatchItem({movie, onDelete, onToggle}) {
 
-  useEffect(() => {
-    console.log('hello');
-    return () => {
-      console.log('Bye');
-    }
-  }, [])
+  // useEffect(() => {
+  //   console.log('hello');
+  //   return () => {
+  //     console.log('Bye');
+  //   }
+  // }, [])
 
   function onMovieDelete(e){
     e.stopPropagation();

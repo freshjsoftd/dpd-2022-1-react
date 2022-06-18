@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
+// import TypeProps from './components/TypeProps/TypeProps';
 import WatchForm from './components/WatchForm/WatchForm'
 import WatchList from './components/WatchList/WatchList'
 import initialState from './model/initial-to-watch';
@@ -10,14 +11,7 @@ function App() {
  
     const [toWatchMovies, setToWatchMovies] =  useState([]);
 
-    useEffect(() => {
-      const movies = JSON.parse(localStorage.getItem('movies'));
-      if(!movies){
-        setToWatchMovies(initialState);
-      }else{
-        setToWatchMovies(movies);
-      }
-        }, [])
+    useEffect(() => getFromStorage(), [])
 
     function deleteToWatch(id) {
       const newWatchMovies = toWatchMovies.filter((movie) => movie.id !== id);
@@ -29,15 +23,14 @@ function App() {
       localStorage.setItem('movies', JSON.stringify(movies));
     }
 
-    // function getFromStorage(){
-    //   const movies = JSON.parse(localStorage.getItem('movies'));
-    //   if(!movies){
-    //     setToWatchMovies(initialState);
-    //   }else{
-    //     setToWatchMovies(saveToStorage(movies));
-    //   }
-      
-    // }
+    function getFromStorage(){
+      const movies = JSON.parse(localStorage.getItem('movies'));
+      if(!movies){
+        setToWatchMovies(initialState);
+      }else{
+        setToWatchMovies(movies);
+      }
+    }
 
     function toggleToWatch(id) {
       const newWatchMovies = toWatchMovies.map((movie) => movie.id !== id ? movie 
@@ -62,8 +55,15 @@ function App() {
           />
         <WatchForm 
           onSubmit={addNewToWatch}
-        //             onSave={this.saveToWatch}
                     />
+        {/* <TypeProps 
+          // numb={20}
+          // string={2}
+          string='movie'
+          bool={true}
+          func={() => 'It is a function'}
+          movies={toWatchMovies}
+          /> */}
     </div>
   )
 }

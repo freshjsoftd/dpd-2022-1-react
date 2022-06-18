@@ -41,10 +41,6 @@ function WatchForm({onSubmit}) {
               onChange={onIputChange}
               />
         <button className="add">Add</button>
-        {/* <button 
-              className="save"
-              type='button'
-              onClick={this.props.onSave}>Save</button> */}
     </form>
   )
 }
