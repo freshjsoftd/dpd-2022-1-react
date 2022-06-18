@@ -1,62 +1,53 @@
-import React, { useEffect, useState } from 'react'
-import './App.css'
+import React, {useEffect, useState} from 'react';
+import './App.css';
 // import TypeProps from './components/TypeProps/TypeProps';
-import WatchForm from './components/WatchForm/WatchForm'
-import WatchList from './components/WatchList/WatchList'
-import initialState from './model/initial-to-watch';
-
-
+import WatchForm from './components/WatchForm/WatchForm';
+import WatchList from './components/WatchList/WatchList';
+import moviesService from './movies-service.js';
+// import initialState from './model/initial-to-watch';
 
 function App() {
- 
-    const [toWatchMovies, setToWatchMovies] =  useState([]);
+  const [toWatchMovies, setToWatchMovies] = useState([]);
 
-    useEffect(() => getFromStorage(), [])
+  useEffect(() => {
+    moviesService
+      .get('/')
+      .then(({data}) => setToWatchMovies(data))
+      .catch((error) => console.log(error));
+  }, []);
 
-    function deleteToWatch(id) {
-      const newWatchMovies = toWatchMovies.filter((movie) => movie.id !== id);
+  function deleteToWatch(id) {
+    moviesService.delete(`/${id}`)
+    const newWatchMovies = toWatchMovies.filter((movie) => movie.id !== id);
+    setToWatchMovies(newWatchMovies);
+  }
+
+  function toggleToWatch(id) {
+    const updatedMovie =toWatchMovies.find((movie) => movie.id === id);
+    updatedMovie.isDone = !updatedMovie.isDone;
+    moviesService.put(`/${id}`, updatedMovie)
+    .then(({data}) => setToWatchMovies(toWatchMovies.map((movie) =>
+    movie.id !== id ? movie : data,
+  )))
+  }
+
+  function addNewToWatch(toWatch) {
+    toWatch.id = Date.now();
+    moviesService.post('/', toWatch).then(({data}) => {
+      const newWatchMovies = [...toWatchMovies, data];
       setToWatchMovies(newWatchMovies);
-      saveToStorage(newWatchMovies);
-    }
-
-    function saveToStorage(movies){
-      localStorage.setItem('movies', JSON.stringify(movies));
-    }
-
-    function getFromStorage(){
-      const movies = JSON.parse(localStorage.getItem('movies'));
-      if(!movies){
-        setToWatchMovies(initialState);
-      }else{
-        setToWatchMovies(movies);
-      }
-    }
-
-    function toggleToWatch(id) {
-      const newWatchMovies = toWatchMovies.map((movie) => movie.id !== id ? movie 
-                                      :  {...movie, isDone: !movie.isDone});
-      setToWatchMovies(newWatchMovies);
-      saveToStorage(newWatchMovies);
-    }
-
-    function addNewToWatch(toWatch){
-      toWatch.id = Date.now();
-      const newWatchMovies = [...toWatchMovies, toWatch];
-      setToWatchMovies(newWatchMovies);
-      saveToStorage(newWatchMovies);
-    }
+    });
+  }
 
   return (
     <div className="container">
-        <WatchList 
-          movies={toWatchMovies}
-          onToggle={toggleToWatch}
-          onDelete={deleteToWatch}
-          />
-        <WatchForm 
-          onSubmit={addNewToWatch}
-                    />
-        {/* <TypeProps 
+      <WatchList
+        movies={toWatchMovies}
+        onToggle={toggleToWatch}
+        onDelete={deleteToWatch}
+      />
+      <WatchForm onSubmit={addNewToWatch} />
+      {/* <TypeProps 
           // numb={20}
           // string={2}
           string='movie'
@@ -65,7 +56,7 @@ function App() {
           movies={toWatchMovies}
           /> */}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
